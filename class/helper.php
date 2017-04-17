@@ -50,7 +50,7 @@ class helper {
      * @return string of music directory
      */
     public function getDir() {
-        return $this->result->d1 . $this->result->dir."/";
+        return $this->result->d1 . $this->result->dir . "/";
     }
 
     /**
@@ -58,7 +58,7 @@ class helper {
      * @return string 
      */
     public function getPackageIdentifier() {
-        return $this->getResult()->metadata->identifier;
+        return $this->result->metadata->identifier;
     }
 
     /**
@@ -66,7 +66,7 @@ class helper {
      * @return string
      */
     public function getPackageTitle() {
-        return $this->getResult()->metadata->title;
+        return $this->result->metadata->title;
     }
 
     /**
@@ -74,7 +74,7 @@ class helper {
      * @return string
      */
     public function getPackageSubject() {
-        return $this->getResult()->metadata->subject;
+        return $this->result->metadata->subject;
     }
 
     /**
@@ -82,7 +82,7 @@ class helper {
      * @return string of Date
      */
     public function getPackageAddedDate() {
-        return $this->getResult()->metadata->addeddate;
+        return $this->result->metadata->addeddate;
     }
 
     /**
@@ -90,7 +90,7 @@ class helper {
      * @return array
      */
     public function getPackageCollectionType() {
-        return $this->getResult()->metadata->collection;
+        return $this->result->metadata->collection;
     }
 
     /**
@@ -144,6 +144,7 @@ class helper {
     public function getFilesDuration($index) {
         return gmdate("i", $this->getFilesLength($index)) . ":" . gmdate("s", $this->getFilesLength($index));
     }
+
     /**
      * This function is used to get mp3 lists of the package
      * @return array
@@ -152,12 +153,30 @@ class helper {
         for ($i = 0; $i < count($this->result->files); $i++) {
             if ($this->result->files[$i]->format === "VBR MP3") {
                 $lists[] = array(
-                    "name"=>$this->getFilesName($i), 
-                    "duration"=>$this->getFilesDuration($i), 
-                    "url"=> $this->getDir().$this->getFilesName($i));
+                    "name" => $this->getFilesName($i),
+                    "duration" => $this->getFilesDuration($i),
+                    "url" => $this->getDir() . $this->getFilesName($i));
             }
         }
         return $lists;
+    }
+
+    public function getItem() {
+        for ($i = 0; $i < count($this->result->files); $i++) {
+            if ($this->result->files[$i]->format === "VBR MP3") {
+                $item[] = array(
+                    "@type" => "ListItem",
+                    "position" => $i,
+                    "item" => array(
+                        "@type" => "MusicRecording",
+                        "name" => $this->getFilesName($i),
+                        "duration" => "PT" . gmdate("i", $this->getFilesLength($i)) . "M" . gmdate("s", $this->getFilesLength($i)) . "S",
+                        "url" => "https://unduhable.blogspot.co.id/" . "#" . $i
+                    )
+                );
+            }
+        }
+        return $item;
     }
 
 }
