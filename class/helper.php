@@ -50,7 +50,7 @@ class helper {
      * @return string of music directory
      */
     public function getDir() {
-        return $this->getResult()->d1 . $this->getResult()->dir;
+        return $this->result->d1 . $this->result->dir."/";
     }
 
     /**
@@ -151,7 +151,10 @@ class helper {
     public function getMp3List() {
         for ($i = 0; $i < count($this->result->files); $i++) {
             if ($this->result->files[$i]->format === "VBR MP3") {
-                $lists[] = $this->getFilesName($i);
+                $lists[] = array(
+                    "name"=>$this->getFilesName($i), 
+                    "duration"=>$this->getFilesDuration($i), 
+                    "url"=> $this->getDir().$this->getFilesName($i));
             }
         }
         return $lists;
