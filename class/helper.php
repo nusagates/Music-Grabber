@@ -1,15 +1,8 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of helper
+ * This class used to handling on fetching data from 
  *
- * @author nusag
+ * @author Nusagates <nusagates@gmail.com>
  */
 class helper {
     //put your code here
